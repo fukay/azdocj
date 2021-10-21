@@ -32,11 +32,11 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     - name: Download jarfile
       uses: actions/download-artifact@v2
       with:
         name: azdocj
         path: target/azdocj-1.0.jar
-    - uses: actions/checkout@v2
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
