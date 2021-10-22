@@ -28,25 +28,19 @@ jobs:
         name: azdocj
         path: target/azdocj-1.0.jar
       
-  docker-build:
+
+  docker-azpush:
     needs: build
     runs-on: ubuntu-latest
     steps:
+    - name: 'Checkout GitHub Action'
     - uses: actions/checkout@v2
-    - name: Download jarfile
+    
+    - name: 'Download jarfile'
       uses: actions/download-artifact@v2
       with:
         name: azdocj
         path: target/azdocj-1.0.jar
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-
-  build-and-deploy:
-    needs: docker-build
-    runs-on: ubuntu-latest
-    steps:
-    - name: 'Checkout GitHub Action'
-      uses: actions/checkout@main 
          
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
