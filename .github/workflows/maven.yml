@@ -51,6 +51,8 @@ jobs:
         login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
+    # - run: |
+    #     docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/azdocj:${GITHUB_REF##*/}
+    #     docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/azdocj:${GITHUB_REF##*/}
     - run: |
-        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/azdocj:${GITHUB_REF##*/}
-        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/azdocj:${GITHUB_REF##*/}
+        az acr build --registry ${{ secrets.REGISTRY_LOGIN_SERVER }} --image azdocj:${GITHUB_REF##*/} .
