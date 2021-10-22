@@ -52,5 +52,5 @@ jobs:
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
     - run: |
-        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/azdocj:${{ github.sha }}
-        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/azdocj:${{ github.sha }}
+        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/azdocj:${GITHUB_REF}
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/azdocj:${GITHUB_REF}
