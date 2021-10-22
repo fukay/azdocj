@@ -28,7 +28,7 @@ jobs:
         name: azdocj
         path: target/azdocj-1.0.jar
       
-  docker:
+  docker-build:
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -40,3 +40,25 @@ jobs:
         path: target/azdocj-1.0.jar
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
+  build-and-deploy:
+    needs: docker-build
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@main 
+         
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+    - name: 'Build and push image'
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    - run: |
+        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/azdocj:${{ github.sha }}
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/azdocj:${{ github.sha }}
