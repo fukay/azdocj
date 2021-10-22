@@ -35,8 +35,6 @@ jobs:
     steps:
     - name: 'Checkout GitHub Action'
     - uses: actions/checkout@v2
-    
-    - name: 'Download jarfile'
       uses: actions/download-artifact@v2
       with:
         name: azdocj
