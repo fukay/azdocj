@@ -10,7 +10,7 @@ on:
     
 
 jobs:
-  build:
+  maven-build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -26,11 +26,11 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: azdocj
-        path: target/azdocj-1.0.jar
+        path: target/azdocj.jar
       
 
-  docker-azpush:
-    needs: build
+  docker-build-push:
+    needs: maven-build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -38,7 +38,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: azdocj
-        path: target/azdocj-1.0.jar
+        path: target/azdocj.jar
          
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
