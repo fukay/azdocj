@@ -38,7 +38,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: azdocj
-        path: target/azdocj.jar
+        path: target
          
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
