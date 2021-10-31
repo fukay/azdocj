@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:9.6-alpine3.14
+    env_file:
+      - .env
+
+  web:
+    image: adoptopenjdk/openjdk11:debianslim-jre
+    volumes:
+      - ../../target/azdocj.jar:/app/azdocj.jar
+    command: java -jar /app/azdocj.jar
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
